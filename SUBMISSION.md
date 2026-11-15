@@ -10,7 +10,7 @@
 
 README: https://github.com/shakirovsport2005-dotcom/shakirov/blob/main/README.md
 
-Презентация PowerPoint: https://github.com/shakirovsport2005-dotcom/shakirov/raw/refs/heads/main/docs/presentation.pptx
+Презентация PowerPoint: https://raw.githubusercontent.com/shakirovsport2005-dotcom/shakirov/90b3dcd21f38f3af80d39ab90397514c199d95f2/docs/presentation.pptx
 
 Тестовый вход: student@hackcampus.demo, judge@hackcampus.demo, organizer@hackcampus.demo. Пароль для всех: Campus2026!
 

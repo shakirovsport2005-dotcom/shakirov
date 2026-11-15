@@ -16,7 +16,7 @@
 
 Веб-приложение: https://hackcampus-student-demo.rareserval16.chatgpt.site
 
-Презентация: [7 слайдов на русском, PowerPoint (.pptx)](docs/presentation.pptx). Скачайте файл и откройте в Microsoft PowerPoint, LibreOffice Impress или Google Slides. После запуска приложения файл доступен также на http://localhost:3000/presentation.
+Презентация: [7 слайдов на русском, PowerPoint (.pptx)](https://raw.githubusercontent.com/shakirovsport2005-dotcom/shakirov/90b3dcd21f38f3af80d39ab90397514c199d95f2/docs/presentation.pptx). Скачайте файл и откройте в Microsoft PowerPoint, LibreOffice Impress или Google Slides. После запуска приложения файл доступен также на http://localhost:3000/presentation.
 
 ## Локальный запуск
 
