@@ -3,3 +3,5 @@ site.tar.gz
 
 data/
 *.sqlite
+.pptx-build/
+

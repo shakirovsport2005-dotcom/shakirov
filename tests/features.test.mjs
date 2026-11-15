@@ -1,0 +1,23 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {DatabaseSync} from 'node:sqlite';import {readFileSync} from 'node:fs';import worker from '../worker/index.js';
+test('Registration, moderation, team rules and seasonal ranking',async()=>{const db=new DatabaseSync(':memory:');db.exec(readFileSync('drizzle/0000_state.sql','utf8'));const env={DB:{prepare(sql){let args=[];return {bind(...v){args=v;return this},async first(){return db.prepare(sql).get(...args)},async run(){return {meta:{changes:Number(db.prepare(sql).run(...args).changes)}}}}}}};async function call(path,body,cookie=''){return worker.fetch(new Request('https://test/api/'+path,{method:body?'POST':'GET',headers:{cookie,...(body?{'content-type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})}),env)}async function login(name){const r=await call('login',{email:name+'@hackcampus.demo',password:'Campus2026!'});assert.equal(r.status,200);return r.headers.get('set-cookie').split(';')[0]}
+ const org=await login('organizer'),judge=await login('judge'),student=await login('student');
+ assert.equal((await call('register',{name:'Test',email:'bad',password:'1234567890'})).status,400);
+ const r=await call('register',{name:'Новый участник',email:'test@example.org',password:'Student2026!',role:'organizer'});assert.equal(r.status,200);const fresh=r.headers.get('set-cookie').split(';')[0];const me=await(await call('state',undefined,fresh)).json();assert.equal(me.me.role,'student');assert.equal((await call('close',{event:'h1'},fresh)).status,403);
+ assert.equal((await call('register',{name:'Дубль',email:'TEST@EXAMPLE.ORG',password:'Student2026!'})).status,409);
+ assert.equal((await call('team',{event:'h1',code:'ORBITA26',role:'Аналитик'},fresh)).status,200);
+ assert.equal((await call('leave',{team:'t1'},student)).status,409);
+ assert.equal((await call('leave',{team:'t1'},fresh)).status,200);
+ assert.equal((await call('team',{event:'h1',name:'Новая команда',role:'Капитан'},fresh)).status,200);
+ let state=await(await call('state',undefined,fresh)).json();const team=state.teams.find(t=>t.captain===state.me.id);
+ const submit={team:team.id,title:'Новый проект',description:'Работающий пример',url:'https://example.org/project'};
+ assert.equal((await call('submission',submit,fresh)).status,200);
+ assert.equal((await call('score',{team:team.id,scores:[80,80,80,80],comment:'Хорошо'},judge)).status,409);
+ assert.equal((await call('review',{team:team.id,status:'accepted'},judge)).status,403);
+ assert.equal((await call('review',{team:team.id,status:'rejected',note:''},org)).status,400);
+ assert.equal((await call('review',{team:team.id,status:'rejected',note:'Добавьте описание демонстрации'},org)).status,200);
+ assert.equal((await call('submission',submit,fresh)).status,200);
+ assert.equal((await call('review',{team:team.id,status:'accepted'},org)).status,200);
+ assert.equal((await call('score',{team:team.id,scores:[55,55,55,55],comment:'Оценено'},judge)).status,200);
+ await call('close',{event:'h1'},org);assert.equal((await call('leave',{team:team.id},fresh)).status,409);await call('publish',{event:'h1'},org);await call('publish',{event:'h1'},org);
+ state=await(await call('state',undefined,fresh)).json();const rank=state.leaderboard.find(x=>x.user===state.me.id);assert.equal(rank.points,10);assert.equal(rank.projects,1);assert.equal(state.ledger.length,1);assert.equal(state.teams.find(t=>t.id==='t1').place,2);db.close();
+});

@@ -1,0 +1,10 @@
+services:
+  hackcampus:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - campus-data:/data
+    restart: unless-stopped
+volumes:
+  campus-data:
