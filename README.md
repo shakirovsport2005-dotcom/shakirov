@@ -14,7 +14,7 @@
 
 Прямой README: https://github.com/shakirovsport2005-dotcom/shakirov/blob/main/README.md
 
-Публикация веб-приложения выполняется. Ссылка появится после завершения развёртывания.
+Веб-приложение: https://hackcampus-student-demo.rareserval16.chatgpt.site
 
 Презентация: [7 слайдов на русском, PowerPoint (.pptx)](docs/presentation.pptx). Скачайте файл и откройте в Microsoft PowerPoint, LibreOffice Impress или Google Slides. После запуска приложения файл доступен также на http://localhost:3000/presentation.
 
@@ -110,7 +110,7 @@ JavaScript ES Modules, встроенный HTTP-сервер Node.js и вст�
 docker compose up --build -d
 ```
 
-После выдачи домена проверить вход каждой роли, оценивание и публикацию в обычном браузере. Затем заменить раздел ссылок здесь и в `SUBMISSION.md`. Файлы README и презентации доступны на `/README.md` и `/presentation`. Для Sites сохранены идентификатор проекта, D1-привязка и Worker-сборка; публикация требует доступного сервера исходников и применения миграции.
+Облачная версия опубликована через Sites. Worker использует базу D1 с привязкой DB и SQL-миграцию из drizzle. Файлы README и презентации доступны на /README.md и /presentation.
 
 ## Пилот и развитие
 
@@ -133,3 +133,4 @@ docker compose up --build -d
 Готовый файл: `docs/presentation.pptx`, 7 слайдов на русском. Текст и таблицы редактируются, изображения встроены. Для просмотра интернет не нужен.
 
 Проверка комплекта: `node scripts/check-deliverables.mjs`. Пересборка презентации: `node scripts/make-presentation-pptx.mjs` в среде с `@oai/artifact-tool` и Playwright. Путь к пакетам задаётся через `RUNTIME_NODE_MODULES`, путь к браузеру при необходимости через `PRESENTATION_BROWSER`. Эти пакеты нужны только для создания презентации, приложение запускается без них.
+
