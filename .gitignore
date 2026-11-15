@@ -1,0 +1,5 @@
+dist/
+site.tar.gz
+
+data/
+*.sqlite
